@@ -30,11 +30,6 @@ var stringifyJSON = function(obj) {
 //(when it is found in an object) or censored to null (when it is found in an array).
 
 //******Replacer function:
-//can be function or array
 //If a function, transforms values and properties encountered while stringifying; 
 //if an array, specifies the set of properties included in objects in the final string.
 //A detailed description of the replacer function is provided in the javaScript guide article Using native JSON.
-
-
--So, object properties end up randomly ordered
--
