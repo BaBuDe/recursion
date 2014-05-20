@@ -3,22 +3,32 @@
 
 // but you don't so you're going to write it from scratch:
 var stringifyJSON = function(obj) {
-	if (typeof obj === 'object') {
-		_.each(obj, function () {
-			if (typeof value === 'function' || XML || undefined) {
-				delete value;
-		});
-	};
-	else if (Array.isArray(obj)) {
-		_.each(obj, function(value, index) {
-			if (typeof value === 'function' || XML || undefined) {
-				value = null;
-		});
-	};
-	else if (typeof obj = 'Boolean' || Number || 'string') {
-		//convert to primitive value w/traditional conversion semantics...whatever that means;
-	};
+	if (Array.isArray(obj)) {
+	 	var jObj = {};
+	 };
+    for (var i in obj) {
+       jObj[i] = obj[i];
+    };
+	
+	
+	_.each(obj, function(value) {
+		if (typeof value === 'object') {
+			return stringifyJSON(value);
+		}
+		else if (Array.isArray(value)) {
+			_.each(value, function(item) {
+				return stringifyJSON(item);
+			});
+		};
+		else if (typeof item === 'function' || or item === undefined) {
+			delete item || item = null; //how to properly omit? and how to determine the path (was it in a function or an object?)?
+		};
+		else value = value.toString();
+	});
+	
+	return obj.toString();
 };
+
 
 //So essentially what I am doing is re-creating the replacer function instead of passing that in as an argument.
 
@@ -34,3 +44,5 @@ var stringifyJSON = function(obj) {
 //If a function, transforms values and properties encountered while stringifying; 
 //if an array, specifies the set of properties included in objects in the final string.
 //A detailed description of the replacer function is provided in the javaScript guide article Using native JSON.
+
+//probably don't want _.map because it returns an array
