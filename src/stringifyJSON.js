@@ -5,32 +5,49 @@
 var stringifyJSON = function(obj) {
 
 	if (obj === null) {
-		return "null";
+		obj = "null";
 	}
 	else if (obj === undefined) {
-		return "undefined";
+		obj = "undefined";
 	}
-	else if (typeof obj === 'boolean' || typeof obj === 'number' || typeof obj === 'string') {
-		return '"' + obj + '"';
+	else if (typeof obj === 'boolean' || typeof obj === 'number') {
+		obj = obj.toString();
 	}
-	else if (Array.isArray(obj)) {
-		_.each(obj, function(value) {
-			if (value === undefined || typeof value === 'function') {
-				return null;
-			} else stringifyJSON(value);
-		});
-		return '"' + obj + '"';
-	};
+	else if (typeof obj === 'string') {
+		obj = '"' + obj + '"';
+	}
 	else if (typeof obj === 'object') {
-		 _.each(obj, function(value) {
-			if (value === undefined || typeof value === 'function') {
-				return "";
-			} else stringifyJSON(value);
-		});
-		return '"' + obj + '"';
+		
+		if (Array.isArray(obj)) {
+
+			// var strungArray = [];
+
+			if (obj.length < 1) {
+				return '[]';
+			};
+				for (var i = 0; i <obj.length; i++) {
+					if (obj[i] === undefined || typeof obj[i] === 'function') {
+						obj[i] = 'null';
+					} else {
+						obj[i] = stringifyJSON(obj[k]);	
+					};
+				};	
+		
+		return "[" + obj + "]";
+			
+		} else {
+		 	for (var k in obj) {
+				if (obj[k] === undefined || typeof obj[k] === 'function') {
+					obj[k] = "";
+				} else {
+					obj[k] = stringifyJSON(obj[k]);
+				};
+			};
+		
+		};
 	};
 
-
+return obj;
 
 };
 
