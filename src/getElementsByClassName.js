@@ -5,34 +5,34 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
-//should this be in here? how do you pass the root node to the function???
-    var root = document.body;
+	
+	var root = document.body;
+  	var matchingElements = [];
 
-    $('body').addClass(className);
+  	var traverser = function (node, elemclass) {
+  		if (node.classList.contains(elemclass)) {
+	          matchingElements.push(node);
+	    }
+	    if (node.hasChildNodes()) {
+	      var child = node.firstElementChild;
+	      while (child) {
+	        if (child.classList.contains(elemclass)) {
+	          matchingElements.push(child);
+	    	}
+	        if (child.nodeType === 1 && child.childElementCount > 0) {
+	          traverser(child, elemclass);
+	        }
+	        child = child.nextElementSibling;
+	      }
+	    }
+  	};
 
+ 	traverser(root, className);
 
-
-		var matchingElements = [];
-
-		var crawlDOM = function(node, func) {
-		    func(node);
-		    node = node.firstChild;
-		    while (node) {
-		        crawlDOM(node, func);
-		        node = node.nextSibling;
-		    }
-		};
-
-		crawlDOM(root, function (className, node) {
-			if (node.classList.contains(className)) {
-				matchingElements.push(node);
-			}
-		});
-
-  
-    return matchingElements;
+  	return matchingElements;
 
 };
+
 
 //returns array-like object with all child nodes w/that class name
 //when called on DOM or document, searches everything including root node
@@ -43,6 +43,8 @@ var getElementsByClassName = function(className){
 //element.classList
 
 //--the element being passed in is not the element being recursed on
-//use recursion to walk through all the descendent nodes?
-//nested approach vs not
+//could I use Walk the DOM here?
+
+
+
 
